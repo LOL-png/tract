@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TrAct: Bridging Robot Control and Visual Prediction with Visual Tracks</title>
+
+  <meta name="description" content="TrAct uses visual tracks as a shared interface between robot control and video world models, enabling reward-guided action selection grounded in image-space dynamics.">
+  <meta property="og:title" content="TrAct: Bridging Robot Control and Visual Prediction with Visual Tracks"/>
+  <meta property="og:description" content="Visual tracks as a shared interface between robot control and visual prediction."/>
+  <meta property="og:image" content="static/images/teaser.jpg"/>
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="static/images/teaser.jpg">
+  <meta name="keywords" content="robot learning, world models, visual tracks, vision-language-action, manipulation">
+
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Noto+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.2/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="static/css/index.css?v=2">
+</head>
+<body>
+
+<!-- ===================== TITLE / AUTHORS / LINKS ===================== -->
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title">TrAct: Bridging Robot Control and Visual&nbsp;Prediction with Visual Tracks</h1>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">Zhi Cao<sup>1,*</sup>,</span>
+            <span class="author-block">Howard Ji<sup>2,*</sup>,</span>
+            <span class="author-block">Kevin Zhang<sup>3,*</sup>,</span>
+            <span class="author-block">Huang Huang<sup>2,*</sup>,</span>
+            <span class="author-block">Kuangzhi Ge<sup>3</sup>,</span>
+            <span class="author-block">Li Fei-Fei<sup>2</sup>,</span>
+            <span class="author-block">Jiajun Wu<sup>2</sup></span>
+          </div>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block"><sup>1</sup>University of Michigan,</span>
+            <span class="author-block"><sup>2</sup>Stanford University,</span>
+            <span class="author-block"><sup>3</sup>Peking University</span>
+          </div>
+          <div class="is-size-6 publication-authors">
+            <span class="author-block"><sup>*</sup>Equal contribution</span>
+          </div>
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <!-- TODO: replace # with the arXiv abs URL once posted -->
+              <span class="link-block">
+                <a href="#" class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon"><i class="ai ai-arxiv"></i></span><span>arXiv</span>
+                </a>
+              </span>
+              <!-- TODO: drop the compiled PDF into static/pdfs/ and point here -->
+              <span class="link-block">
+                <a href="#" class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon"><i class="fas fa-file-pdf"></i></span><span>Paper</span>
+                </a>
+              </span>
+              <!-- TODO: repository URL -->
+              <span class="link-block">
+                <a href="#" class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon"><i class="fab fa-github"></i></span><span>Code</span>
+                </a>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== TEASER ===================== -->
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <img src="static/images/teaser.jpg" alt="Overview of TrAct."/>
+      <h2 class="subtitle has-text-centered">
+        <strong>Overview of TrAct.</strong> A vision-language-action-and-track model <b>(VLAT, left)</b>,
+        pretrained on large-scale cross-embodiment data, proposes candidate action&ndash;track pairs.
+        A track-conditioned world model <b>(TWM, middle)</b> rolls out the visual outcome for each
+        candidate conditioned on its track, and a vision-language critic <b>(VLAC, middle)</b> selects the
+        highest-reward rollout; the robot executes the paired action.
+      </h2>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== ABSTRACT ===================== -->
+<section class="section hero is-light">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            Robot actions are embodiment-specific and only weakly aligned with image-space visual change,
+            which limits their effectiveness as a conditioning signal for video world models. Visual tracks
+            &mdash; the motion of task-relevant points through the scene &mdash; are largely
+            embodiment-agnostic and specify motion directly in image space.
+          </p>
+          <p>
+            <strong>TrAct</strong> uses visual tracks as an intermediate interface between control and
+            prediction. A vision-language-action-and-track policy proposes candidate actions paired with
+            their corresponding tracks, a track-conditioned world model predicts the visual outcome induced
+            by each track, and a vision-language critic scores the predicted outcomes against the language
+            instruction. The action paired with the highest-scoring track is then executed by the robot.
+          </p>
+          <p>
+            On the LIBERO-INTEGRAL benchmark and real-world Franka manipulation, TrAct improves task
+            success from 27% to 55% in simulation and from 49% to 76% on real-world tasks over the
+            &pi;<sub>0.5</sub> baseline. Furthermore, the track-conditioned world model consistently
+            improves video prediction quality over the action-conditioned world model.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== METHOD ===================== -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-full">
+        <h2 class="title is-3">Method</h2>
+        <img src="static/images/pipeline.jpg" alt="The TrAct pipeline."/>
+        <p class="caption has-text-justified">
+          <strong>Overview of the TrAct framework.</strong> Given an observation and a language instruction,
+          the vision-language-action-and-track model jointly predicts <i>K</i> candidate actions and their
+          corresponding visual tracks. Each set of predicted tracks conditions a world model to generate
+          future video frames. A vision-language-action critic scores the predicted outcomes and selects
+          the action whose rollout best fits the instruction.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== QUALITATIVE PREDICTION ===================== -->
+<section class="section hero is-light">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-full">
+        <h2 class="title is-3">Track vs. Action-Conditioned World Model</h2>
+        <p class="caption has-text-justified" style="margin-bottom:1.25rem;">
+          We compare two world models that differ only in what they condition on: the track-conditioned
+          world model <b>(TWM)</b>, which is guided by the predicted point tracks, and the
+          action-conditioned world model <b>(AWM)</b>, which is guided by the raw robot action chunk.
+        </p>
+        <img src="static/images/video_quality.jpg" alt="Qualitative video comparison between the track-conditioned and action-conditioned world models."/>
+        <img src="static/images/additional_qual.jpg" alt="Further qualitative comparison across additional scenes." style="margin-top:1rem;"/>
+        <p class="caption has-text-justified">
+          The track-conditioned model produces more spatially accurate and motion-coherent frames than the
+          action-conditioned one across both agent-view and wrist-view cameras. The action-conditioned model
+          often exhibits incorrect gripper poses, disappearing objects, spatial drift, and cross-view object
+          position inconsistencies, especially in wrist view.
+        </p>
+
+        <h3 class="title is-5" style="margin-top:2.5rem;">Quantitative Video Quality</h3>
+        <p class="caption has-text-justified">
+        Action-conditioned (AWM) vs. track-conditioned (TWM) world models.
+        &uarr; higher is better, &darr; lower is better.
+        </p>
+        <div class="table-container">
+        <table class="table is-fullwidth is-striped is-hoverable">
+        <thead>
+        <tr>
+        <th rowspan="2">Metric</th>
+        <th colspan="2">Real / Agent</th><th colspan="2">Real / Wrist</th>
+        <th colspan="2">Sim / Agent</th><th colspan="2">Sim / Wrist</th>
+        </tr>
+        <tr>
+        <th>AWM</th><th>TWM</th><th>AWM</th><th>TWM</th>
+        <th>AWM</th><th>TWM</th><th>AWM</th><th>TWM</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr><td>PSNR &uarr;</td><td>20.70</td><td><b>21.27</b></td><td>16.89</td><td><b>20.62</b></td><td>15.12</td><td><b>24.51</b></td><td>16.25</td><td><b>22.71</b></td></tr>
+        <tr><td>SSIM &uarr;</td><td>0.767</td><td><b>0.802</b></td><td>0.621</td><td><b>0.738</b></td><td>0.482</td><td><b>0.843</b></td><td>0.668</td><td><b>0.822</b></td></tr>
+        <tr><td>LPIPS &darr;</td><td>0.126</td><td><b>0.111</b></td><td>0.372</td><td><b>0.225</b></td><td>0.438</td><td><b>0.106</b></td><td>0.452</td><td><b>0.182</b></td></tr>
+        <tr><td>FID &darr;</td><td>105</td><td><b>95</b></td><td>176</td><td><b>130</b></td><td>248</td><td><b>156</b></td><td>222</td><td><b>92</b></td></tr>
+        <tr><td>FVD &darr;</td><td>148</td><td><b>105</b></td><td>246</td><td><b>140</b></td><td>129</td><td><b>38</b></td><td>207</td><td><b>162</b></td></tr>
+        </tbody>
+        </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== ROLLOUTS ===================== -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-full">
+        <h2 class="title is-3">Real-World Rollouts</h2>
+        <div class="rollout-grid">
+          <figure class="rollout-cell">
+            <video src="static/videos/pi05_realworld_track_joint_data_vlac_true_t_a_test_2_02_put_the_hotdog_bun_in_the_bowl.mp4" autoplay loop muted playsinline preload="metadata"></video>
+          </figure>
+          <figure class="rollout-cell">
+            <video src="static/videos/pi05_realworld_track_joint_data_vlac_true_t_a_test_4_02_close_the_right_cabinet_door.mp4" autoplay loop muted playsinline preload="metadata"></video>
+          </figure>
+          <figure class="rollout-cell">
+            <video src="static/videos/pi05_realworld_track_joint_data_vlac_diffback_true_a_test_5_04_put_the_green_lego_block_in_the_bowl.mp4" autoplay loop muted playsinline preload="metadata"></video>
+          </figure>
+          <figure class="rollout-cell">
+            <video src="static/videos/pi05_realworld_track_joint_data_vlac_diffback_true_a_test_4_10_pour_the_pasta_into_the_pan.mp4" autoplay loop muted playsinline preload="metadata"></video>
+          </figure>
+        </div>
+        <p class="caption has-text-justified">
+          Rollouts on the physical Franka, overlaid with the visual tracks predicted at each step.
+          The top row runs on the training background and the bottom row on an unseen background.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== RESULTS ===================== -->
+<section class="section hero is-light">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-full">
+        <h2 class="title is-3">Results</h2>
+
+        <div class="content legend">
+          <p>
+            All variants share the same candidate generator and the same critic. They differ in the policy
+            that proposes candidates, and in what the world model conditions on.
+          </p>
+          <ul>
+            <li><b>&pi;<sub>0.5</sub></b> &mdash; the baseline vision-language-action policy.</li>
+            <li><b>VLAT</b> &mdash; a vision-language-action-and-track policy that jointly predicts
+                actions and their tracks.</li>
+            <li><b>VLAT + AWM</b> &mdash; VLAT candidates rolled out by the action-conditioned world model
+                and scored by the critic.</li>
+            <li><b>TrAct</b> &mdash; VLAT candidates rolled out by the track-conditioned world model and
+                scored by the critic.</li>
+          </ul>
+          <p>Each adjacent pair isolates one factor:</p>
+          <ul>
+            <li><b>&pi;<sub>0.5</sub> &rarr; VLAT</b> &mdash; jointly predicting tracks alongside
+                actions.</li>
+            <li><b>VLAT &rarr; VLAT + AWM</b> &mdash; adding world-model-based action selection.</li>
+            <li><b>VLAT + AWM &rarr; TrAct</b> &mdash; the action-conditioned versus the track-conditioned
+                world model.</li>
+          </ul>
+        </div>
+
+        <div class="viz-root">
+          <div class="viz-legend"><span class="viz-legend-item"><i class="viz-swatch s1"></i>&pi;<sub>0.5</sub></span><span class="viz-legend-item"><i class="viz-swatch s2"></i>VLAT</span><span class="viz-legend-item"><i class="viz-swatch s3"></i>VLAT + AWM</span><span class="viz-legend-item"><i class="viz-swatch s4"></i>TrAct</span></div>
+          <h3 class="title is-5 viz-heading">LIBERO-INTEGRAL (simulation)</h3>
+          <p class="viz-title">Average success rate</p>
+          <div class="hbar-chart">
+            <div class="hbar-row">
+              <div class="hbar-label">&pi;<sub>0.5</sub></div>
+              <div class="hbar-track"><div class="hbar-fill s1" style="width:27%" title="&pi;<sub>0.5</sub>: 0.27"></div></div>
+              <div class="hbar-value">0.27</div>
+            </div>
+            <div class="hbar-row">
+              <div class="hbar-label">VLAT</div>
+              <div class="hbar-track"><div class="hbar-fill s2" style="width:44%" title="VLAT: 0.44"></div></div>
+              <div class="hbar-value">0.44</div>
+            </div>
+            <div class="hbar-row">
+              <div class="hbar-label">VLAT + AWM</div>
+              <div class="hbar-track"><div class="hbar-fill s3" style="width:49%" title="VLAT + AWM: 0.49"></div></div>
+              <div class="hbar-value">0.49</div>
+            </div>
+            <div class="hbar-row">
+              <div class="hbar-label">TrAct</div>
+              <div class="hbar-track"><div class="hbar-fill s4" style="width:55%" title="TrAct: 0.55"></div></div>
+              <div class="hbar-value">0.55</div>
+            </div>
+          </div>
+          <p class="viz-title">By variation category</p>
+          <div class="vbar-chart">
+            <div class="vbar-axis"><span style="bottom:100%">1.0</span><span style="bottom:75%">0.75</span><span style="bottom:50%">0.5</span><span style="bottom:25%">0.25</span><span style="bottom:0%">0</span></div>
+            <div class="vbar-area">
+              <div class="vbar-plot"><div class="vbar-stack"><div class="vbar s1" style="height:40%" title="&pi;<sub>0.5</sub>: 0.40"></div><div class="vbar s2" style="height:50%" title="VLAT: 0.50"></div><div class="vbar s3" style="height:65%" title="VLAT + AWM: 0.65"></div><div class="vbar s4" style="height:65%" title="TrAct: 0.65"></div></div><div class="vbar-stack"><div class="vbar s1" style="height:35%" title="&pi;<sub>0.5</sub>: 0.35"></div><div class="vbar s2" style="height:40%" title="VLAT: 0.40"></div><div class="vbar s3" style="height:50%" title="VLAT + AWM: 0.50"></div><div class="vbar s4" style="height:60%" title="TrAct: 0.60"></div></div><div class="vbar-stack"><div class="vbar s1" style="height:15%" title="&pi;<sub>0.5</sub>: 0.15"></div><div class="vbar s2" style="height:35%" title="VLAT: 0.35"></div><div class="vbar s3" style="height:50%" title="VLAT + AWM: 0.50"></div><div class="vbar s4" style="height:50%" title="TrAct: 0.50"></div></div><div class="vbar-stack"><div class="vbar s1" style="height:45%" title="&pi;<sub>0.5</sub>: 0.45"></div><div class="vbar s2" style="height:45%" title="VLAT: 0.45"></div><div class="vbar s3" style="height:45%" title="VLAT + AWM: 0.45"></div><div class="vbar s4" style="height:60%" title="TrAct: 0.60"></div></div><div class="vbar-stack"><div class="vbar s1" style="height:45%" title="&pi;<sub>0.5</sub>: 0.45"></div><div class="vbar s2" style="height:55%" title="VLAT: 0.55"></div><div class="vbar s3" style="height:55%" title="VLAT + AWM: 0.55"></div><div class="vbar s4" style="height:65%" title="TrAct: 0.65"></div></div><div class="vbar-stack"><div class="vbar s1" style="height:17%" title="&pi;<sub>0.5</sub>: 0.17"></div><div class="vbar s2" style="height:42%" title="VLAT: 0.42"></div><div class="vbar s3" style="height:44%" title="VLAT + AWM: 0.44"></div><div class="vbar s4" style="height:50%" title="TrAct: 0.50"></div></div></div>
+              <div class="vbar-labels"><div class="vbar-label">Swap</div><div class="vbar-label">Object</div><div class="vbar-label">Task</div><div class="vbar-label">Camera</div><div class="vbar-label">RobotInit</div><div class="vbar-label">Cross-Emb.</div></div>
+            </div>
+          </div>
+          <h3 class="title is-5 viz-heading">Physical robot experiments</h3>
+          <p class="viz-title">Average success rate</p>
+          <div class="hbar-chart">
+            <div class="hbar-row">
+              <div class="hbar-label">&pi;<sub>0.5</sub></div>
+              <div class="hbar-track"><div class="hbar-fill s1" style="width:49%" title="&pi;<sub>0.5</sub>: 0.49"></div></div>
+              <div class="hbar-value">0.49</div>
+            </div>
+            <div class="hbar-row">
+              <div class="hbar-label">VLAT</div>
+              <div class="hbar-track"><div class="hbar-fill s2" style="width:55%" title="VLAT: 0.55"></div></div>
+              <div class="hbar-value">0.55</div>
+            </div>
+            <div class="hbar-row">
+              <div class="hbar-label">VLAT + AWM</div>
+              <div class="hbar-track"><div class="hbar-fill s3" style="width:66%" title="VLAT + AWM: 0.66"></div></div>
+              <div class="hbar-value">0.66</div>
+            </div>
+            <div class="hbar-row">
+              <div class="hbar-label">TrAct</div>
+              <div class="hbar-track"><div class="hbar-fill s4" style="width:76%" title="TrAct: 0.76"></div></div>
+              <div class="hbar-value">0.76</div>
+            </div>
+          </div>
+          <div class="viz-row">
+            <div class="viz-col viz-col-wide">
+          <p class="viz-title">By task</p>
+          <div class="vbar-chart">
+            <div class="vbar-axis"><span style="bottom:100%">1.0</span><span style="bottom:75%">0.75</span><span style="bottom:50%">0.5</span><span style="bottom:25%">0.25</span><span style="bottom:0%">0</span></div>
+            <div class="vbar-area">
+              <div class="vbar-plot"><div class="vbar-stack"><div class="vbar s1" style="height:45%" title="&pi;<sub>0.5</sub>: 0.45"></div><div class="vbar s2" style="height:50%" title="VLAT: 0.50"></div><div class="vbar s3" style="height:60%" title="VLAT + AWM: 0.60"></div><div class="vbar s4" style="height:70%" title="TrAct: 0.70"></div></div><div class="vbar-stack"><div class="vbar s1" style="height:60%" title="&pi;<sub>0.5</sub>: 0.60"></div><div class="vbar s2" style="height:70%" title="VLAT: 0.70"></div><div class="vbar s3" style="height:90%" title="VLAT + AWM: 0.90"></div><div class="vbar s4" style="height:90%" title="TrAct: 0.90"></div></div><div class="vbar-stack"><div class="vbar s1" style="height:50%" title="&pi;<sub>0.5</sub>: 0.50"></div><div class="vbar s2" style="height:55%" title="VLAT: 0.55"></div><div class="vbar s3" style="height:70%" title="VLAT + AWM: 0.70"></div><div class="vbar s4" style="height:70%" title="TrAct: 0.70"></div></div><div class="vbar-stack"><div class="vbar s1" style="height:40%" title="&pi;<sub>0.5</sub>: 0.40"></div><div class="vbar s2" style="height:45%" title="VLAT: 0.45"></div><div class="vbar s3" style="height:50%" title="VLAT + AWM: 0.50"></div><div class="vbar s4" style="height:75%" title="TrAct: 0.75"></div></div><div class="vbar-stack"><div class="vbar s1" style="height:50%" title="&pi;<sub>0.5</sub>: 0.50"></div><div class="vbar s2" style="height:55%" title="VLAT: 0.55"></div><div class="vbar s3" style="height:60%" title="VLAT + AWM: 0.60"></div><div class="vbar s4" style="height:75%" title="TrAct: 0.75"></div></div></div>
+              <div class="vbar-labels"><div class="vbar-label">Green block</div><div class="vbar-label">Pink noodle</div><div class="vbar-label">Hotdog bun</div><div class="vbar-label">Cabinet door</div><div class="vbar-label">Pour pasta</div></div>
+            </div>
+          </div>
+            </div>
+            <div class="viz-col viz-col-narrow">
+          <p class="viz-title">By background</p>
+          <div class="vbar-chart">
+            <div class="vbar-axis"><span style="bottom:100%">1.0</span><span style="bottom:75%">0.75</span><span style="bottom:50%">0.5</span><span style="bottom:25%">0.25</span><span style="bottom:0%">0</span></div>
+            <div class="vbar-area">
+              <div class="vbar-plot"><div class="vbar-stack"><div class="vbar s1" style="height:54%" title="&pi;<sub>0.5</sub>: 0.54"></div><div class="vbar s2" style="height:62%" title="VLAT: 0.62"></div><div class="vbar s3" style="height:76%" title="VLAT + AWM: 0.76"></div><div class="vbar s4" style="height:82%" title="TrAct: 0.82"></div></div><div class="vbar-stack"><div class="vbar s1" style="height:44%" title="&pi;<sub>0.5</sub>: 0.44"></div><div class="vbar s2" style="height:48%" title="VLAT: 0.48"></div><div class="vbar s3" style="height:56%" title="VLAT + AWM: 0.56"></div><div class="vbar s4" style="height:70%" title="TrAct: 0.70"></div></div></div>
+              <div class="vbar-labels"><div class="vbar-label">Training</div><div class="vbar-label">Unseen</div></div>
+            </div>
+          </div>
+            </div>
+          </div>
+        </div>
+
+        <details class="all-numbers">
+          <summary>Show all numbers</summary>
+        <h3 class="title is-5">LIBERO-INTEGRAL</h3>
+        <p class="caption has-text-justified">
+          LIBERO-INTEGRAL combines robustness variations from LIBERO-PRO and LIBERO-Plus with
+          cross-embodiment transfer to a UR5. Scores are average task success rates.
+        </p>
+        <div class="table-container">
+          <table class="table is-fullwidth is-striped is-hoverable">
+            <thead>
+              <tr><th>Method</th><th>Swap</th><th>Object</th><th>Task</th><th>Camera</th><th>RobotInit</th><th>Cross-Emb.</th><th>Avg.</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>&pi;<sub>0.5</sub></td><td>0.40</td><td>0.35</td><td>0.15</td><td>0.45</td><td>0.45</td><td>0.17</td><td>0.27</td></tr>
+              <tr><td>VLAT</td><td>0.50</td><td>0.40</td><td>0.35</td><td>0.45</td><td>0.55</td><td>0.42</td><td>0.44</td></tr>
+              <tr><td>VLAT + AWM</td><td><b>0.65</b></td><td>0.50</td><td><b>0.50</b></td><td>0.45</td><td>0.55</td><td>0.44</td><td>0.49</td></tr>
+              <tr class="highlight-row"><td><b>TrAct</b></td><td><b>0.65</b></td><td><b>0.60</b></td><td><b>0.50</b></td><td><b>0.60</b></td><td><b>0.65</b></td><td><b>0.50</b></td><td><b>0.55</b></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3 class="title is-5" style="margin-top:2.5rem;">Physical Robot Experiments</h3>
+        <p class="caption has-text-justified">
+          Success rates on five <i>unseen</i> Franka manipulation tasks, each evaluated under the regular
+          training background (R) and a visually distinct background (D).
+        </p>
+        <div class="table-container">
+          <table class="table is-fullwidth is-striped is-hoverable">
+            <thead>
+              <tr><th>Task</th><th>Bg.</th><th>&pi;<sub>0.5</sub></th><th>VLAT</th><th>VLAT+AWM</th><th>TrAct</th></tr>
+            </thead>
+            <tbody>
+              <tr><td rowspan="2">Green block in bowl</td><td class="bg">R</td><td>0.5</td><td>0.6</td><td><b>0.7</b></td><td><b>0.7</b></td></tr>
+              <tr><td class="bg">D</td><td>0.4</td><td>0.4</td><td>0.5</td><td><b>0.7</b></td></tr>
+              <tr><td rowspan="2">Half pink noodle in bowl</td><td class="bg">R</td><td>0.6</td><td>0.8</td><td><b>1.0</b></td><td><b>1.0</b></td></tr>
+              <tr><td class="bg">D</td><td>0.6</td><td>0.6</td><td><b>0.8</b></td><td><b>0.8</b></td></tr>
+              <tr><td rowspan="2">Hotdog bun in bowl</td><td class="bg">R</td><td>0.6</td><td>0.6</td><td><b>0.8</b></td><td><b>0.8</b></td></tr>
+              <tr><td class="bg">D</td><td>0.4</td><td>0.5</td><td><b>0.6</b></td><td><b>0.6</b></td></tr>
+              <tr><td rowspan="2">Close the cabinet door</td><td class="bg">R</td><td>0.5</td><td>0.5</td><td>0.6</td><td><b>0.8</b></td></tr>
+              <tr><td class="bg">D</td><td>0.3</td><td>0.4</td><td>0.4</td><td><b>0.7</b></td></tr>
+              <tr><td rowspan="2">Pour pasta into the pan</td><td class="bg">R</td><td>0.5</td><td>0.6</td><td>0.7</td><td><b>0.8</b></td></tr>
+              <tr><td class="bg">D</td><td>0.5</td><td>0.5</td><td>0.5</td><td><b>0.7</b></td></tr>
+              <tr class="highlight-row"><td><b>Average</b></td><td></td><td>0.49</td><td>0.55</td><td>0.66</td><td><b>0.76</b></td></tr>
+            </tbody>
+          </table>
+        </div>
+        </details>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ===================== BIBTEX ===================== -->
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">BibTeX</h2>
+    <pre><code>@article{cao2026tract,
+  title   = {TrAct: Bridging Robot Control and Visual Prediction with Visual Tracks},
+  author  = {Cao, Zhi and Ji, Howard and Zhang, Kevin and Huang, Huang and
+             Ge, Kuangzhi and Fei-Fei, Li and Wu, Jiajun},
+  journal = {arXiv preprint arXiv:XXXX.XXXXX},
+  year    = {2026}
+}</code></pre>
+    <p class="is-size-7">
+      Replace <code>XXXX.XXXXX</code> with the arXiv identifier once the preprint is posted.
+    </p>
+  </div>
+</section>
+
+<!-- ===================== FOOTER ===================== -->
+<footer class="footer">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content has-text-centered is-size-7">
+          <p>
+            This website is licensed under a
+            <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons
+            Attribution-ShareAlike 4.0 International License</a>.
+          </p>
+          <p>
+            This page was built from the <a href="https://nerfies.github.io">Nerfies</a> project page
+            template. Please credit the original authors if you reuse it.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
