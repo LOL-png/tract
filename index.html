@@ -232,27 +232,27 @@
         <h2 class="title is-3">Simulation Rollouts</h2>
         <div class="rollout-grid">
           <figure class="rollout-cell">
+            <video src="static/videos/sim_libero_alphabet_soup.mp4" autoplay loop muted playsinline preload="metadata"></video>
+            <figcaption><span class="rollout-tag">Original LIBERO</span><br>Pick the alphabet soup and place it in the basket</figcaption>
+          </figure>
+          <figure class="rollout-cell">
             <video src="static/videos/sim_ablation_camera_pose.mp4" autoplay loop muted playsinline preload="metadata"></video>
-            <figcaption><span class="rollout-tag">Ablation &middot; different camera pose</span><br>Put the wine bottle on the top of the drawer</figcaption>
+            <figcaption><span class="rollout-tag">Different Camera Pose</span><br>Put the wine bottle on the top of the drawer</figcaption>
           </figure>
           <figure class="rollout-cell">
             <video src="static/videos/sim_ablation_cross_embodiment.mp4" autoplay loop muted playsinline preload="metadata"></video>
-            <figcaption><span class="rollout-tag">Ablation &middot; cross-embodiment (UR5e)</span><br>Put both the alphabet soup and the tomato sauce in the basket</figcaption>
+            <figcaption><span class="rollout-tag">Cross-Embodiment (UR5e)</span><br>Put both the alphabet soup and the tomato sauce in the basket</figcaption>
           </figure>
           <figure class="rollout-cell">
             <video src="static/videos/sim_ablation_robot_init.mp4" autoplay loop muted playsinline preload="metadata"></video>
-            <figcaption><span class="rollout-tag">Ablation &middot; different robot init</span><br>Put both the cream cheese box and the butter in the basket</figcaption>
-          </figure>
-          <figure class="rollout-cell">
-            <video src="static/videos/sim_libero_alphabet_soup.mp4" autoplay loop muted playsinline preload="metadata"></video>
-            <figcaption><span class="rollout-tag">LIBERO</span><br>Pick the alphabet soup and place it in the basket</figcaption>
+            <figcaption><span class="rollout-tag">Different Robot Init</span><br>Put both the cream cheese box and the butter in the basket</figcaption>
           </figure>
         </div>
         <p class="caption has-text-justified">
           Rollouts in LIBERO simulation, overlaid with the visual tracks predicted at each step
           (agent view on the left, wrist view on the right; red marks the current position and blue the predicted future).
-          The first three come from our ablation settings&mdash;a shifted camera pose, a cross-embodiment UR5e arm,
-          and a different robot initial pose&mdash;and the last one is a standard LIBERO task.
+          The first is a standard LIBERO task; the remaining three are our generalization settings&mdash;a shifted
+          camera pose, a cross-embodiment UR5e arm, and a different robot initial pose.
         </p>
       </div>
     </div>
