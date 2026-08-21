@@ -62,7 +62,7 @@ the clone slow for everyone.
 
 ## Notes
 
-Adding real MP4 rollout clips would improve this page considerably — the
-qualitative sections are currently static contact sheets pulled from the paper
-figures. Put them in `static/videos/` and swap the `<img>` tags for
+Real-world and simulation rollout MP4s live in `static/videos/` (dual-view agent +
+wrist with the predicted track overlay). The Real-World / Simulation
+Rollouts sections in `index.html` reference them via
 `<video autoplay muted loop playsinline>`.

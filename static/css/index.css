@@ -236,6 +236,7 @@ tr.highlight-row td {
   margin-top: 0.5rem; font-size: 0.85rem; color: #363636; text-align: center;
 }
 .rollout-bg { color: #7a7a7a; }
+.rollout-tag { font-weight: 600; color: #363636; }
 
 @media screen and (max-width: 700px) {
   .rollout-grid { grid-template-columns: 1fr; }
