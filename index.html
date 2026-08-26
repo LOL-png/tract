@@ -100,23 +100,27 @@
         <h2 class="title is-3">Abstract</h2>
         <div class="content has-text-justified">
           <p>
-            Robot actions are embodiment-specific and only weakly aligned with image-space visual change,
-            which limits their effectiveness as a conditioning signal for video world models. Visual tracks
-            &mdash; the motion of task-relevant points through the scene &mdash; are largely
-            embodiment-agnostic and specify motion directly in image space.
-          </p>
-          <p>
-            <strong>TrAct</strong> uses visual tracks as an intermediate interface between control and
-            prediction. A vision-language-action-and-track policy proposes candidate actions paired with
-            their corresponding tracks, a track-conditioned world model predicts the visual outcome induced
-            by each track, and a vision-language critic scores the predicted outcomes against the language
-            instruction. The action paired with the highest-scoring track is then executed by the robot.
-          </p>
-          <p>
-            On the LIBERO-INTEGRAL benchmark and real-world Franka manipulation, TrAct improves task
-            success from 27% to 55% in simulation and from 49% to 76% on real-world tasks over the
-            &pi;<sub>0.5</sub> baseline. Furthermore, the track-conditioned world model consistently
-            improves video prediction quality over the action-conditioned world model.
+            Robot actions are inherently embodiment-specific and only weakly aligned with image-space
+            visual changes, limiting their effectiveness as conditioning signals for robot world models.
+            In contrast, visual tracks provide an embodiment-agnostic representation of how task-relevant
+            points move through a scene, offering dense image-space guidance for accurate and spatially
+            precise future video prediction. Building on this observation, we propose <strong>TrAct</strong>,
+            a world-model-based robot decision-making framework that uses visual tracks as an intermediate
+            interface between control and prediction. TrAct consists of three components: a
+            Vision-Language-Action-and-Track model (VLAT) that jointly predicts candidate actions and
+            corresponding visual tracks from the current observation and language instruction; a
+            track-conditioned world model (TWM) that predicts future visual outcomes conditioned on the
+            proposed tracks; and a vision-language reward model (VLAC) that scores the predicted outcomes.
+            At inference time, VLAT generates candidate action-track pairs, TWM rolls out their visual
+            consequences, and VLAC selects the track whose predicted outcome best satisfies the
+            instruction; the action paired with the selected track is then executed by the robot.
+            Experiments on the proposed LIBERO-INTEGRAL benchmark and real-world Franka manipulation show
+            that TrAct improves success rates from 27% to 55% in simulation and from 49% to 76% on
+            real-world tasks compared with the strong VLA baseline &pi;<sub>0.5</sub>. Furthermore, TWM
+            consistently improves video prediction quality over the action-conditioned world model (AWM).
+            These results demonstrate that visual tracks provide an effective shared interface between
+            robot control and visual prediction, enabling more accurate world modeling and stronger robot
+            generalization.
           </p>
         </div>
       </div>
